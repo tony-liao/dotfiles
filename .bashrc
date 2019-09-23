@@ -35,7 +35,22 @@ colors() {
 
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
+# shorthands
 alias ls='ls --color=auto'
+alias ll='ls -alF'
 
-export LD_LIBRARY_PATH=/opt/cuda/lib64
-export CUDA_HOME=/opt/cuda
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
+alias .........='cd ../../../../../../../..'
+
+# interactive shell options
+set -o vi
+shopt -s direxpand
+
+# display colours
+export TERM=xterm-256color

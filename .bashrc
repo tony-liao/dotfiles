@@ -13,7 +13,7 @@ colors() {
 	printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
 
 	# foreground colors
-	for fgc in {30..37}; do
+        for fgc in {30..37}; do
 		# background colors
 		for bgc in {40..47}; do
 			fgc=${fgc#37} # white
@@ -35,9 +35,12 @@ colors() {
 
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
+# prompt
+export PS1="\e[36m\u@\h \e[30m\A \e[34m\w\e[0m\n\$ "
+
 # shorthands
 alias ls='ls --color=auto'
-alias ll='ls -alF'
+alias ll='ls -alhF'
 
 alias ..='cd ..'
 alias ...='cd ../..'

@@ -39,6 +39,9 @@ colors() {
 export PS1="\e[36m\u@\h \e[30m\A \e[34m\w\e[0m\n\$ "
 
 # shorthands
+mcd () {
+    mkdir $1 && cd $1
+}
 alias ls='ls --color=auto'
 alias ll='ls -alhF'
 

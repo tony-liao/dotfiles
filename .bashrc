@@ -58,5 +58,9 @@ alias .........='cd ../../../../../../../..'
 set -o vi
 shopt -s direxpand
 
+# Append to history and remove duplicates
+shopt -s histappend
+export HISTCONTROL=ignoreboth:erasedups
+
 # display colours
 export TERM=xterm-256color

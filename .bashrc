@@ -64,3 +64,6 @@ export HISTCONTROL=ignoreboth:erasedups
 
 # display colours
 export TERM=xterm-256color
+
+# Set .config location
+export XDG_USER_CONFIG_DIR=$HOME/.config

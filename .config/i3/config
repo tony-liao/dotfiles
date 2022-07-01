@@ -1,0 +1,248 @@
+# Modified from i3-config-wizard(1)
+
+
+##### Appearance #####
+# No window text
+font pango:monospace 0
+
+# Window borders
+#default_border none
+#default_floating_border none
+default_border pixel 3
+default_floating_border pixel 3
+hide_edge_borders smart
+
+# Colours
+set $c_bg   #282A2E
+set $c_bg2  #373B41
+set $c_fg   #C5C8C6
+set $c_pri  #F0C674
+set $c_sec  #8ABEB7
+set $c_alr  #A54242
+set $c_dis  #707880
+
+# class                 border  backgr. text    indic.  child_border
+client.focused          $c_pri  $c_pri  $c_pri  $c_pri  $c_pri
+client.focused_inactive $c_fg   $c_fg   $c_fg   $c_fg   $c_fg 
+client.unfocused        $c_bg2  $c_bg2  $c_bg2  $c_bg2  $c_bg2
+client.urgent           $c_alr  $c_alr  $c_alr  $c_alr  $c_alr
+client.placeholder      $c_bg   $c_bg   $c_bg   $c_bg   $c_bg
+
+client.background       $c_bg
+
+# Subtler alternative
+#client.focused          $c_fg   $c_fg   $c_fg   $c_fg   $c_fg 
+#client.focused_inactive $c_bg2  $c_bg2  $c_bg2  $c_bg2  $c_bg2
+#client.unfocused        $c_bg   $c_bg   $c_bg   $c_bg   $c_bg 
+
+##### Workspaces #####
+# Workspace names
+set $ws1  "1:term"
+set $ws2  "2:web"
+set $ws3  "3:chat"
+set $ws4  "4:misc"
+set $ws5  "5:misc"
+set $ws6  "6:misc"
+set $ws7  "7:misc"
+set $ws8  "8:misc"
+set $ws9  "9:misc"
+set $ws10 "10:music"
+
+# Monitor bindings
+workspace $ws1  output primary
+workspace $ws2  output primary
+workspace $ws3  output primary
+workspace $ws4  output primary
+workspace $ws5  output primary
+workspace $ws6  output eDP-1
+workspace $ws7  output eDP-1
+workspace $ws8  output eDP-1
+workspace $ws9  output eDP-1
+workspace $ws10 output eDP-1
+
+# Workspace assignments
+assign [class="^firefox$"] $ws2
+assign [class="^discord$"] $ws3
+# Spotify ignores assignment...
+for_window [class="^Spotify$"] move container to workspace $ws10
+# Floating terminals
+for_window [class="^Gnome-terminal$"] floating enable
+
+# Split horizontally for wide monitors by default, and vice versa
+default_orientation auto
+
+
+##### Key bindings #####
+set $mod Mod1
+
+# Use pactl to adjust volume in PulseAudio
+bindsym XF86AudioRaiseVolume    exec --no-startup-id pactl set-sink-volume  @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume    exec --no-startup-id pactl set-sink-volume  @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute           exec --no-startup-id pactl set-sink-mute    @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute        exec --no-startup-id pactl set-source-mute  @DEFAULT_SOURCE@ toggle
+
+# Adjust screen brightness using brightnessctl
+bindsym XF86MonBrightnessUp     exec --no-startup-id brightnessctl s +5%
+bindsym XF86MonBrightnessDown   exec --no-startup-id brightnessctl s 5%-
+
+# Start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start rofi
+bindsym $mod+d exec "rofi -modi drun -show drun"
+bindsym $mod+Shift+d exec "rofi -modi run -show run"
+
+# Change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+h        move left   50 px
+bindsym $mod+Shift+j        move down   50 px
+bindsym $mod+Shift+k        move up     50 px
+bindsym $mod+Shift+l        move right  50 px
+bindsym $mod+Shift+Left     move left   50 px
+bindsym $mod+Shift+Down     move down   50 px
+bindsym $mod+Shift+Up       move up     50 px
+bindsym $mod+Shift+Right    move right  50 px
+
+# Split (tmux bindings)
+bindsym $mod+s split v
+bindsym $mod+v split h
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# Change container layout
+#bindsym $mod+s layout stacking
+bindsym $mod+w layout toggle tabbed split
+#bindsym $mod+e layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Focus the parent container
+#bindsym $mod+a focus parent
+
+# Focus the child container
+#bindsym $mod+d focus child
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move focused container to workspace and follow it
+bindsym $mod+Shift+1 move container to workspace $ws1  ; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2  ; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3  ; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4  ; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5  ; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6  ; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7  ; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8  ; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9  ; workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10 ; workspace $ws10
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+# Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# Exit i3 (log out)
+#bindsym $mod+Shift+e exec i3-msg exit
+
+# Resize window
+mode "resize" {
+    bindsym h       resize shrink   width   50 px
+    bindsym j       resize grow     height  50 px
+    bindsym k       resize shrink   height  50 px
+    bindsym l       resize grow     width   50 px
+    bindsym Left    resize shrink   width   50 px
+    bindsym Down    resize grow     height  50 px
+    bindsym Up      resize shrink   height  50 px
+    bindsym Right   resize grow     width   50 px
+
+    # Exit
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Power menu
+set $power_mode "Power: (l)ock (s)leep (e)xit (r)estart (o)ff (esc)ape"
+mode $power_mode {
+    bindsym l exec --no-startup-id "i3lock"                     , mode "default"
+    bindsym e exec --no-startup-id "i3-msg exit"                , mode "default"
+    bindsym s exec --no-startup-id "i3lock && systemctl suspend", mode "default"
+    bindsym r exec --no-startup-id "systemctl reboot"           , mode "default"
+    bindsym o exec --no-startup-id "systemctl poweroff"         , mode "default"
+
+    # Exit
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+e mode $power_mode
+
+
+##### Mouse #####
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+# Don't switch focus with mouse
+focus_follows_mouse no
+# Don't move mouse on display switch
+mouse_warping none
+
+##### Startup #####
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
+
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+#exec --no-startup-id nm-applet
+
+# Set browser workspace to tabbed
+exec --no-startup-id i3-msg 'workspace $ws2; layout tabbed'
+# Open workspaces
+# This doesn't work if set to exec instead of exec_always; no idea why
+exec_always --no-startup-id i3-msg 'workspace $ws6; workspace $ws1'
+
+# Status bar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# i3bar for debug
+# bar {
+#     status_command i3status
+# }
+
+# Background
+exec_always --no-startup-id "feh --bg-fill $HOME/background.jpg"
+

@@ -3,7 +3,7 @@
 ! hard contrast: *background: #1d2021
 ! medium contrast: *background: #282828
 ! soft contrast: *background: #32302f
-*background: [94]#1d2021
+*background: #1d2021
 *foreground: #ebdbb2
 ! Black + DarkGrey
 *color0:  #282828
@@ -41,6 +41,7 @@ URxvt.internalBorder: 16
 URxvt.depth: 32
 ! Disable fake transparency
 URxvt.transparent: false
+URxvt.background: rgba:1d1d/2020/2121/e8e8
 
 ! Ctrl-Shift-C/V for X clipboard
 URxvt.iso14755: false

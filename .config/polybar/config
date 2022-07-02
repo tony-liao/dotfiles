@@ -17,13 +17,13 @@
 ;==========================================================
 
 [colors]
-background = #282A2E
-background-alt = #373B41
-foreground = #C5C8C6
-primary = #F0C674
-secondary = #8ABEB7
-alert = #A54242
-disabled = #707880
+background      = ${xrdb:URxvt.color234}
+background-alt  = ${xrdb:URxvt.color237}
+foreground      = ${xrdb:URxvt.color223}
+primary         = ${xrdb:URxvt.color214}
+secondary       = ${xrdb:URxvt.color108}
+alert           = ${xrdb:URxvt.color167}
+disabled        = ${xrdb:URxvt.color245}
 
 [bar/example]
 ; Set monitor
@@ -36,7 +36,7 @@ radius = 0
 ; dpi = 96
 
 #background = ${colors.background}
-background = #e0282a2e
+background = #e81d2021
 foreground = ${colors.foreground}
 
 line-size = 3pt

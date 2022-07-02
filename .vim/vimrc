@@ -1,12 +1,28 @@
-" Basics
+" Setup
 set nocompatible
-colorscheme dracula
-syntax on
-set number
+set lazyredraw
+
+" Input
 set scrolloff=5
 set noerrorbells novisualbell
-set hidden
 set mouse=a
+set timeoutlen=1000 ttimeoutlen=10
+
+" Appearance
+set number relativenumber
+" Patch for tmux, see :h xterm-true-color
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
+set background=dark
+syntax on
+" Colour scheme
+let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
+" Use terminal background
+hi Normal guibg=NONE
+" Don't display pipes in vsplit
+set fillchars+=vert:\ 
 
 " Whitespace
 set tabstop=8 softtabstop=4 shiftwidth=4 expandtab
@@ -15,29 +31,65 @@ set autoindent smartindent
 " Autocomplete
 set completeopt=longest,menuone
 
-" Searching
+" Search
 set incsearch hlsearch ignorecase smartcase
 
-" Buffers
-set fillchars+=vert:\ " Don't display pipes when splitting window
-
-" Performance
-set lazyredraw
-
-" Status Line
+" Status line: lightline
 set laststatus=2
+set noshowmode
+let g:lightline = {'colorscheme': 'gruvbox'}
+" Backup status line
+set statusline=%!GetStatusLine()
+function GetStatusLine()
+    let s = ''
+    let s .= ' %n%M%R '                             " buf #, mod, ro
+    let s .= ' %-F '                                " filename
+    let s .= '%='                                   " right align
+    let s .= (strlen(&ft) ? &ft : 'none') . ','     " filetype
+    let s .= (strlen(&fenc) ? &fenc : &enc) . ','   " encoding
+    let s .= &fileformat . ' '                      " file format
+    let s .= '%8(%l,%c%) '                          " line and column
+    let s .= '%P '                                  " % of file
+    return s
+endfunction
 
-set statusline=
-set statusline+=%#StatusFileMeta#               " Colours defined in ~/.vim/colors
-set statusline+=\ %n%M%R\                       " buf #, mod, ro
-set statusline+=%#StatusFileName#
-set statusline+=\ %-F\                          " full filename
-set statusline+=%=                              " begin right align
-set statusline+=%#StatusFileMeta#
-set statusline+=\ %{strlen(&ft)?&ft:'none'},    " filetype
-set statusline+=%{strlen(&fenc)?&fenc:&enc},    " encoding
-set statusline+=%{&fileformat}\                 " file format
-set statusline+=%#StatusFileLocation#
-set statusline+=%8(%l,%c%)\                     " line and column
-set statusline+=%P\                             " percentage of file
+" Tab line (backup; overridden by lightline)
+" Small modifications from the example at :help setting-tabline
+set tabline=%!GetTabLine()
 
+function GetTabLine()
+    let s = ''
+    for i in range(tabpagenr('$'))
+        " select the highlighting
+        if i + 1 == tabpagenr()
+            let s .= '%#TabLineSel#'
+        else
+            let s .= '%#TabLine#'
+        endif
+
+        " set the tab page number (for mouse clicks)
+        let s .= '%' . (i + 1) . 'T'
+
+        let s .= ' %{GetTabLabel(' . (i + 1) . ')} '
+    endfor
+
+    " after the last tab fill with TabLineFill and reset tab page nr
+    let s .= '%#TabLineFill#%T'
+
+    return s
+endfunction
+
+function GetTabLabel(n)
+    let buflist = tabpagebuflist(a:n)
+    let winnr = tabpagewinnr(a:n)
+    let totalwinnr = tabpagewinnr(a:n, '$')
+    let bufnr = buflist[winnr-1]
+    let filename =  bufname(bufnr)
+    let modified = getbufvar(bufnr, '&modified')
+
+    let s = ''
+    let s .= modified ? '[+] ' : ''
+    let s .= totalwinnr > 1 ? totalwinnr . ' ' : ''
+    let s .= strlen(filename) ? filename : '[No Name]'
+    return s
+endfunction

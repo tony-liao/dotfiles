@@ -35,15 +35,16 @@ colors() {
 
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
-# prompt
-export PS1="\e[36m\u@\h \e[30m\A \e[34m\w\e[0m\n\$ "
+# Prompt
+export PS1="\e[1m\e[36m\u@\h \e[32m\A \e[33m\w\e[0m\n\$ "
 
-# shorthands
+# Shorthands
 mcd () {
     mkdir $1 && cd $1
 }
 alias ls='ls --color=auto'
 alias ll='ls -alhF'
+alias l='ll'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -61,9 +62,6 @@ shopt -s direxpand
 # Append to history and remove duplicates
 shopt -s histappend
 export HISTCONTROL=ignoreboth:erasedups
-
-# display colours
-export TERM=xterm-256color
 
 # Set .config location
 export XDG_USER_CONFIG_DIR=$HOME/.config

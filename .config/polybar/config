@@ -21,8 +21,8 @@ background      = ${xrdb:URxvt.color234}
 background-alt  = ${xrdb:URxvt.color237}
 foreground      = ${xrdb:URxvt.color223}
 primary         = ${xrdb:URxvt.color214}
-secondary       = ${xrdb:URxvt.color108}
-alert           = ${xrdb:URxvt.color167}
+secondary       = ${xrdb:URxvt.color142}
+alert           = ${xrdb:URxvt.color109}
 disabled        = ${xrdb:URxvt.color245}
 
 [bar/example]
@@ -109,7 +109,7 @@ label-visible-underline = ${colors.primary}
 label-visible-padding = 1
 
 label-urgent = %icon% %index%
-label-urgent-foreground = ${colors.primary}
+label-urgent-foreground = ${colors.foreground}
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 1
 

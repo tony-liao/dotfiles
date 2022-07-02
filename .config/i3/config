@@ -13,13 +13,13 @@ default_floating_border pixel 3
 hide_edge_borders smart
 
 # Colours
-set $c_bg   #282A2E
-set $c_bg2  #373B41
-set $c_fg   #C5C8C6
-set $c_pri  #F0C674
-set $c_sec  #8ABEB7
-set $c_alr  #A54242
-set $c_dis  #707880
+set_from_resource $c_bg  URxvt.color234 #000000
+set_from_resource $c_bg2 URxvt.color237 #000000
+set_from_resource $c_fg  URxvt.color223 #000000
+set_from_resource $c_pri URxvt.color214 #000000
+set_from_resource $c_sec URxvt.color142 #000000
+set_from_resource $c_alr URxvt.color109 #000000
+set_from_resource $c_dis URxvt.color245 #000000
 
 # class                 border  backgr. text    indic.  child_border
 client.focused          $c_pri  $c_pri  $c_pri  $c_pri  $c_pri
@@ -65,8 +65,8 @@ assign [class="^firefox$"] $ws2
 assign [class="^discord$"] $ws3
 # Spotify ignores assignment...
 for_window [class="^Spotify$"] move container to workspace $ws10
-# Floating terminals
-for_window [class="^Gnome-terminal$"] floating enable
+# Floating windows
+for_window [class="^URxvt$"] floating enable
 
 # Split horizontally for wide monitors by default, and vice versa
 default_orientation auto
@@ -86,7 +86,7 @@ bindsym XF86MonBrightnessUp     exec --no-startup-id brightnessctl s +5%
 bindsym XF86MonBrightnessDown   exec --no-startup-id brightnessctl s 5%-
 
 # Start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec urxvt
 
 # Kill focused window
 bindsym $mod+Shift+q kill

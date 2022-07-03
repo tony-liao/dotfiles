@@ -89,7 +89,7 @@ mainbox {
 message {
     border:       2px 0 0;
     border-color: @separatorcolor;
-    padding:      2px;
+    padding:      4px;
     background-color: @background;
 }
 
@@ -109,7 +109,7 @@ listview {
 
 element {
     border:  0;
-    padding: 2px;
+    padding: 4px;
 }
 
 element.normal.normal {
@@ -175,7 +175,7 @@ mode-switcher {
 inputbar {
     spacing:    0;
     text-color: @normal-foreground;
-    padding:    2px;
+    padding:    4px;
     children:   [ prompt, textbox-prompt-sep, entry, case-indicator ];
     background-color: @background;
 }

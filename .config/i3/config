@@ -21,7 +21,7 @@ set_from_resource $c_sec URxvt.color142 #000000
 set_from_resource $c_alr URxvt.color109 #000000
 set_from_resource $c_dis URxvt.color245 #000000
 
-# class                 border  backgr. text    indic.  child_border
+# class                 border  backgr  text    indic   child_b
 client.focused          $c_pri  $c_pri  $c_pri  $c_pri  $c_pri
 client.focused_inactive $c_fg   $c_fg   $c_fg   $c_fg   $c_fg 
 client.unfocused        $c_bg2  $c_bg2  $c_bg2  $c_bg2  $c_bg2
@@ -92,18 +92,20 @@ bindsym $mod+Return exec urxvt
 bindsym $mod+Shift+q kill
 
 # Start rofi
-bindsym $mod+d exec "rofi -modi drun -show drun"
-bindsym $mod+Shift+d exec "rofi -modi run -show run"
+bindsym $mod+d          exec "rofi -show drun"
+bindsym $mod+Shift+d    exec "rofi -show run"
+bindsym $mod+Shift+f    exec "rofi -show filebrowser"
+bindsym $mod+Shift+w    exec "rofi -show window"
 
 # Change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $mod+h      focus left
+bindsym $mod+j      focus down
+bindsym $mod+k      focus up
+bindsym $mod+l      focus right
+bindsym $mod+Left   focus left
+bindsym $mod+Down   focus down
+bindsym $mod+Up     focus up
+bindsym $mod+Right  focus right
 
 # Move focused window
 bindsym $mod+Shift+h        move left   50 px

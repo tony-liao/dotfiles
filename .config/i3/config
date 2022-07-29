@@ -67,6 +67,7 @@ assign [class="^discord$"] $ws3
 for_window [class="^Spotify$"] move container to workspace $ws10
 # Floating windows
 for_window [class="^URxvt$"] floating enable
+for_window [class="^Gnome-"] floating enable
 
 # Split horizontally for wide monitors by default, and vice versa
 default_orientation auto
@@ -92,10 +93,10 @@ bindsym $mod+Return exec urxvt
 bindsym $mod+Shift+q kill
 
 # Start rofi
-bindsym $mod+d          exec "rofi -show drun"
-bindsym $mod+Shift+d    exec "rofi -show run"
-bindsym $mod+Shift+f    exec "rofi -show filebrowser"
-bindsym $mod+Shift+w    exec "rofi -show window"
+bindsym $mod+d          exec --no-startup-id "rofi -show drun"
+bindsym $mod+Shift+d    exec --no-startup-id "rofi -show run"
+bindsym $mod+Shift+f    exec --no-startup-id "rofi -show filebrowser"
+bindsym $mod+Shift+w    exec --no-startup-id "rofi -show window"
 
 # Change focus
 bindsym $mod+h      focus left
@@ -231,8 +232,9 @@ exec --no-startup-id dex --autostart --environment i3
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 #exec --no-startup-id nm-applet
 
-# Set browser workspace to tabbed
-exec --no-startup-id i3-msg 'workspace $ws2; layout tabbed'
+# Start compositor
+exec --no-startup-id picom --experimental-backends
+
 # Open workspaces
 # This doesn't work if set to exec instead of exec_always; no idea why
 exec_always --no-startup-id i3-msg 'workspace $ws6; workspace $ws1'

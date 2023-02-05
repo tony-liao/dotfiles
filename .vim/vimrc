@@ -1,12 +1,14 @@
 " Setup
 set nocompatible
 set lazyredraw
+let mapleader=";"
+set tabpagemax=1000
 
 " Input
 set scrolloff=5
 set noerrorbells novisualbell
 set mouse=a
-set timeoutlen=1000 ttimeoutlen=10
+set notimeout nottimeout
 
 " Appearance
 set number relativenumber
@@ -34,13 +36,57 @@ set completeopt=longest,menuone
 " Search
 set incsearch hlsearch ignorecase smartcase
 
+" netrw
+let g:netrw_banner=0
+let g:netrw_browse_split=3
+let g:netrw_liststyle=3
+let g:netrw_winsize=25
+let g:netrw_bufsettings='number relativenumber'
+
+" Tab navigation
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 10gt
+noremap <leader>h gT
+noremap <leader>l gt
+noremap <leader>! :call TabMoveAbsolute(1) <CR>
+noremap <leader>@ :call TabMoveAbsolute(2) <CR>
+noremap <leader># :call TabMoveAbsolute(3) <CR>
+noremap <leader>$ :call TabMoveAbsolute(4) <CR>
+noremap <leader>% :call TabMoveAbsolute(5) <CR>
+noremap <leader>^ :call TabMoveAbsolute(6) <CR>
+noremap <leader>& :call TabMoveAbsolute(7) <CR>
+noremap <leader>* :call TabMoveAbsolute(8) <CR>
+noremap <leader>( :call TabMoveAbsolute(9) <CR>
+noremap <leader>) :call TabMoveAbsolute(10) <CR>
+noremap <leader>H :tabmove -1 <CR>
+noremap <leader>L :tabmove +1 <CR>
+
+function! TabMoveAbsolute(new_tab_num)
+    let s:curr_tab_num = tabpagenr()
+    if a:new_tab_num <= tabpagenr('$')
+        if a:new_tab_num < s:curr_tab_num
+            execute 'tabmove ' .(a:new_tab_num-1)
+        elseif a:new_tab_num > s:curr_tab_num
+            execute 'tabmove ' .(a:new_tab_num)
+        endif
+    endif
+endfunction
+
 " Status line: lightline
 set laststatus=2
 set noshowmode
 let g:lightline = {'colorscheme': 'gruvbox'}
 " Backup status line
 set statusline=%!GetStatusLine()
-function GetStatusLine()
+function! GetStatusLine()
     let s = ''
     let s .= ' %n%M%R '                             " buf #, mod, ro
     let s .= ' %-F '                                " filename
@@ -56,12 +102,11 @@ endfunction
 " Tab line (backup; overridden by lightline)
 " Small modifications from the example at :help setting-tabline
 set tabline=%!GetTabLine()
-
-function GetTabLine()
+function! GetTabLine()
     let s = ''
     for i in range(tabpagenr('$'))
         " select the highlighting
-        if i + 1 == tabpagenr()
+        if (i+1) == tabpagenr()
             let s .= '%#TabLineSel#'
         else
             let s .= '%#TabLine#'
@@ -70,7 +115,7 @@ function GetTabLine()
         " set the tab page number (for mouse clicks)
         let s .= '%' . (i + 1) . 'T'
 
-        let s .= ' %{GetTabLabel(' . (i + 1) . ')} '
+        let s .= GetTabLabel(i+1)
     endfor
 
     " after the last tab fill with TabLineFill and reset tab page nr
@@ -79,17 +124,24 @@ function GetTabLine()
     return s
 endfunction
 
-function GetTabLabel(n)
-    let buflist = tabpagebuflist(a:n)
-    let winnr = tabpagewinnr(a:n)
-    let totalwinnr = tabpagewinnr(a:n, '$')
-    let bufnr = buflist[winnr-1]
-    let filename =  bufname(bufnr)
-    let modified = getbufvar(bufnr, '&modified')
+function! GetTabLabel(tab_num)
+    let buf_list = tabpagebuflist(a:tab_num)
+    let win_num = tabpagewinnr(a:tab_num)
+    let total_win_num = tabpagewinnr(a:tab_num, '$')
+    let buf_num = buf_list[win_num-1]
+    let file_name =  bufname(buf_num)
+    let modified = getbufvar(buf_num, '&modified')
 
-    let s = ''
-    let s .= modified ? '[+] ' : ''
-    let s .= totalwinnr > 1 ? totalwinnr . ' ' : ''
-    let s .= strlen(filename) ? filename : '[No Name]'
-    return s
+    let prefix = ' ' . a:tab_num . ' '
+    let label = ''
+    let label .= strlen(file_name) ? pathshorten(file_name) : '[No Name'
+    let label .= modified ? ' [+]' : ''
+    let label .= total_win_num > 1 ? ' [' . total_win_num . ']' : ''
+    let suffix = ' '
+
+    let label_len = (&columns / tabpagenr('$')) + (a:tab_num <= &columns % tabpagenr('$') ? 1 : 0)
+    let truncate_len = label_len - strlen(prefix) - strlen(suffix)
+    let tab_label = prefix . label[-truncate_len:] . suffix
+
+    return tab_label
 endfunction
